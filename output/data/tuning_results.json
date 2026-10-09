@@ -1,0 +1,1016 @@
+{
+  "generated": "2026-10-09T12:09:19.911919",
+  "position_ablation": [
+    {
+      "features": "ClinVar only",
+      "position": "with position",
+      "model": "LightGBM",
+      "val": {
+        "ROC-AUC": 0.8019521748261094,
+        "PR-AUC": 0.5802813455695905,
+        "F1": 0.5832866479925304
+      },
+      "test": {
+        "ROC-AUC": 0.8104305140763015,
+        "PR-AUC": 0.6849208354802325,
+        "F1": 0.6355842983907355
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.8079432875285398,
+          0.8135374606236594
+        ],
+        "PR-AUC": [
+          0.6815504389047702,
+          0.6895247162586698
+        ]
+      }
+    },
+    {
+      "features": "ClinVar only",
+      "position": "with position",
+      "model": "Logistic Regression",
+      "val": {
+        "ROC-AUC": 0.8022518566628825,
+        "PR-AUC": 0.5746702626502874,
+        "F1": 0.5771495327102804
+      },
+      "test": {
+        "ROC-AUC": 0.8119973178335746,
+        "PR-AUC": 0.6825808192847411,
+        "F1": 0.6296062678441007
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.8097519086173992,
+          0.8145097963998247
+        ],
+        "PR-AUC": [
+          0.678908902367527,
+          0.6865081059965997
+        ]
+      }
+    },
+    {
+      "features": "ClinVar only",
+      "position": "without position",
+      "model": "LightGBM",
+      "val": {
+        "ROC-AUC": 0.8037740742303952,
+        "PR-AUC": 0.5572296913071859,
+        "F1": 0.5846168228667586
+      },
+      "test": {
+        "ROC-AUC": 0.8061971258941623,
+        "PR-AUC": 0.6577363053749528,
+        "F1": 0.6364289173527496
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.8037273081919097,
+          0.8087808713591015
+        ],
+        "PR-AUC": [
+          0.6540804803125679,
+          0.6621968071918399
+        ]
+      }
+    },
+    {
+      "features": "ClinVar only",
+      "position": "without position",
+      "model": "Logistic Regression",
+      "val": {
+        "ROC-AUC": 0.8041613812248607,
+        "PR-AUC": 0.5520730146524634,
+        "F1": 0.5745948874550559
+      },
+      "test": {
+        "ROC-AUC": 0.8043261234590148,
+        "PR-AUC": 0.6531261067647206,
+        "F1": 0.621486409820001
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.801803779651359,
+          0.8071985914410884
+        ],
+        "PR-AUC": [
+          0.6499303937601048,
+          0.6575398957344661
+        ]
+      }
+    },
+    {
+      "features": "+ both",
+      "position": "with position",
+      "model": "LightGBM",
+      "val": {
+        "ROC-AUC": 0.8624975795285088,
+        "PR-AUC": 0.6829479350095943,
+        "F1": 0.6727702718523896
+      },
+      "test": {
+        "ROC-AUC": 0.8723321385640903,
+        "PR-AUC": 0.7734666212639174,
+        "F1": 0.680355013909127
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.8700978233508004,
+          0.8745695640717703
+        ],
+        "PR-AUC": [
+          0.7693309440193468,
+          0.7774586016044892
+        ]
+      }
+    },
+    {
+      "features": "+ both",
+      "position": "with position",
+      "model": "Logistic Regression",
+      "val": {
+        "ROC-AUC": 0.8602484163762777,
+        "PR-AUC": 0.6847571499333476,
+        "F1": 0.667859847181111
+      },
+      "test": {
+        "ROC-AUC": 0.8720608429174619,
+        "PR-AUC": 0.7747741210581963,
+        "F1": 0.7222791232686763
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.8695273032222973,
+          0.8746352332069107
+        ],
+        "PR-AUC": [
+          0.7709041710519604,
+          0.7787195543870539
+        ]
+      }
+    },
+    {
+      "features": "+ both",
+      "position": "without position",
+      "model": "LightGBM",
+      "val": {
+        "ROC-AUC": 0.8616697461668538,
+        "PR-AUC": 0.6830098392030258,
+        "F1": 0.6699069381737769
+      },
+      "test": {
+        "ROC-AUC": 0.868483136136469,
+        "PR-AUC": 0.7637860325710016,
+        "F1": 0.6785859513346888
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.8663078029260187,
+          0.8710075651899064
+        ],
+        "PR-AUC": [
+          0.7596884655507896,
+          0.7676730372092496
+        ]
+      }
+    },
+    {
+      "features": "+ both",
+      "position": "without position",
+      "model": "Logistic Regression",
+      "val": {
+        "ROC-AUC": 0.8611016595831683,
+        "PR-AUC": 0.6855356222924254,
+        "F1": 0.6679377914589603
+      },
+      "test": {
+        "ROC-AUC": 0.8726937532787893,
+        "PR-AUC": 0.7682810608329469,
+        "F1": 0.7219881656804734
+      },
+      "test_ci95": {
+        "ROC-AUC": [
+          0.8702304578727333,
+          0.8752798864773524
+        ],
+        "PR-AUC": [
+          0.7642617958312282,
+          0.7721154411934492
+        ]
+      }
+    }
+  ],
+  "position_choice_by_validation": "without position",
+  "search": {
+    "LightGBM": {
+      "configs": [
+        {
+          "params": {
+            "n_estimators": 300,
+            "learning_rate": 0.05,
+            "num_leaves": 63,
+            "min_child_samples": 20,
+            "subsample": 1.0,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 0.0
+          },
+          "cv_pr_auc": 0.7978330067266703,
+          "cv_pr_auc_std": 0.01733662302438981,
+          "is_default": true
+        },
+        {
+          "params": {
+            "n_estimators": 300,
+            "learning_rate": 0.1,
+            "num_leaves": 63,
+            "min_child_samples": 300,
+            "subsample": 0.7,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 0.0
+          },
+          "cv_pr_auc": 0.7949454978964753,
+          "cv_pr_auc_std": 0.017193759427681667,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.02,
+            "num_leaves": 15,
+            "min_child_samples": 20,
+            "subsample": 0.7,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.7926171127349988,
+          "cv_pr_auc_std": 0.018644221855696495,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 300,
+            "learning_rate": 0.05,
+            "num_leaves": 15,
+            "min_child_samples": 300,
+            "subsample": 1.0,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 0.0
+          },
+          "cv_pr_auc": 0.7950177185345648,
+          "cv_pr_auc_std": 0.018263573458537512,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.02,
+            "num_leaves": 63,
+            "min_child_samples": 50,
+            "subsample": 0.85,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 1.0
+          },
+          "cv_pr_auc": 0.798956199134504,
+          "cv_pr_auc_std": 0.017785708378288342,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 150,
+            "learning_rate": 0.1,
+            "num_leaves": 255,
+            "min_child_samples": 100,
+            "subsample": 1.0,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.794756893831117,
+          "cv_pr_auc_std": 0.01690524569181413,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 300,
+            "learning_rate": 0.02,
+            "num_leaves": 255,
+            "min_child_samples": 300,
+            "subsample": 0.7,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.7940870218581964,
+          "cv_pr_auc_std": 0.017440875456340772,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.02,
+            "num_leaves": 127,
+            "min_child_samples": 100,
+            "subsample": 0.85,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 0.0
+          },
+          "cv_pr_auc": 0.7984238892530465,
+          "cv_pr_auc_std": 0.01747235784750534,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.05,
+            "num_leaves": 127,
+            "min_child_samples": 50,
+            "subsample": 1.0,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 0.0
+          },
+          "cv_pr_auc": 0.7959261653934857,
+          "cv_pr_auc_std": 0.016786322681954617,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.02,
+            "num_leaves": 255,
+            "min_child_samples": 20,
+            "subsample": 0.85,
+            "colsample_bytree": 0.6,
+            "reg_lambda": 1.0
+          },
+          "cv_pr_auc": 0.7969086455037035,
+          "cv_pr_auc_std": 0.016402123814134185,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 150,
+            "learning_rate": 0.1,
+            "num_leaves": 255,
+            "min_child_samples": 50,
+            "subsample": 1.0,
+            "colsample_bytree": 0.6,
+            "reg_lambda": 0.0
+          },
+          "cv_pr_auc": 0.7932141209425074,
+          "cv_pr_auc_std": 0.016362770075239553,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 150,
+            "learning_rate": 0.05,
+            "num_leaves": 127,
+            "min_child_samples": 50,
+            "subsample": 0.7,
+            "colsample_bytree": 0.8,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.7974400020131234,
+          "cv_pr_auc_std": 0.017496386119513152,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.05,
+            "num_leaves": 127,
+            "min_child_samples": 100,
+            "subsample": 1.0,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.7958261517206389,
+          "cv_pr_auc_std": 0.01694444571874573,
+          "is_default": false
+        }
+      ],
+      "best": {
+        "params": {
+          "n_estimators": 500,
+          "learning_rate": 0.02,
+          "num_leaves": 63,
+          "min_child_samples": 50,
+          "subsample": 0.85,
+          "colsample_bytree": 0.8,
+          "reg_lambda": 1.0
+        },
+        "cv_pr_auc": 0.798956199134504,
+        "cv_pr_auc_std": 0.017785708378288342,
+        "is_default": false
+      }
+    },
+    "XGBoost": {
+      "configs": [
+        {
+          "params": {
+            "n_estimators": 200,
+            "learning_rate": 0.05,
+            "max_depth": 8,
+            "min_child_weight": 1,
+            "subsample": 1.0,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 1.0
+          },
+          "cv_pr_auc": 0.7965236666196643,
+          "cv_pr_auc_std": 0.017421204523612822,
+          "is_default": true
+        },
+        {
+          "params": {
+            "n_estimators": 300,
+            "learning_rate": 0.1,
+            "max_depth": 8,
+            "min_child_weight": 20.0,
+            "subsample": 0.7,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 1.0
+          },
+          "cv_pr_auc": 0.7937973032934837,
+          "cv_pr_auc_std": 0.019074175379002547,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.03,
+            "max_depth": 4,
+            "min_child_weight": 1.0,
+            "subsample": 0.7,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.7915027334658762,
+          "cv_pr_auc_std": 0.018887883966212122,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 300,
+            "learning_rate": 0.05,
+            "max_depth": 4,
+            "min_child_weight": 20.0,
+            "subsample": 1.0,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 1.0
+          },
+          "cv_pr_auc": 0.7905799459442111,
+          "cv_pr_auc_std": 0.019023298890396955,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "min_child_weight": 5.0,
+            "subsample": 0.7,
+            "colsample_bytree": 0.6,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.797515498705339,
+          "cv_pr_auc_std": 0.017489550550657065,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 150,
+            "learning_rate": 0.1,
+            "max_depth": 10,
+            "min_child_weight": 20.0,
+            "subsample": 1.0,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.7952099165519073,
+          "cv_pr_auc_std": 0.016805709051473067,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 300,
+            "learning_rate": 0.03,
+            "max_depth": 10,
+            "min_child_weight": 20.0,
+            "subsample": 0.7,
+            "colsample_bytree": 0.6,
+            "reg_lambda": 10.0
+          },
+          "cv_pr_auc": 0.7966432986910248,
+          "cv_pr_auc_std": 0.016964954896888425,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.03,
+            "max_depth": 8,
+            "min_child_weight": 20.0,
+            "subsample": 1.0,
+            "colsample_bytree": 0.6,
+            "reg_lambda": 1.0
+          },
+          "cv_pr_auc": 0.7978911550217682,
+          "cv_pr_auc_std": 0.01656629224878126,
+          "is_default": false
+        },
+        {
+          "params": {
+            "n_estimators": 500,
+            "learning_rate": 0.05,
+            "max_depth": 8,
+            "min_child_weight": 1.0,
+            "subsample": 1.0,
+            "colsample_bytree": 1.0,
+            "reg_lambda": 1.0
+          },
+          "cv_pr_auc": 0.796083246394051,
+          "cv_pr_auc_std": 0.01612640333416667,
+          "is_default": false
+        }
+      ],
+      "best": {
+        "params": {
+          "n_estimators": 500,
+          "learning_rate": 0.03,
+          "max_depth": 8,
+          "min_child_weight": 20.0,
+          "subsample": 1.0,
+          "colsample_bytree": 0.6,
+          "reg_lambda": 1.0
+        },
+        "cv_pr_auc": 0.7978911550217682,
+        "cv_pr_auc_std": 0.01656629224878126,
+        "is_default": false
+      }
+    }
+  },
+  "final_models": {
+    "LightGBM": {
+      "default": {
+        "params": {
+          "n_estimators": 300,
+          "learning_rate": 0.05,
+          "num_leaves": 63,
+          "min_child_samples": 20,
+          "subsample": 1.0,
+          "colsample_bytree": 1.0,
+          "reg_lambda": 0.0
+        },
+        "val": {
+          "ROC-AUC": 0.8616697461668538,
+          "PR-AUC": 0.6830098392030258,
+          "F1": 0.6699069381737769,
+          "Precision": 0.6629131524960109,
+          "Recall": 0.6770498672999022,
+          "Balanced Accuracy": 0.8100527435170244,
+          "Brier": 0.07429449185106135,
+          "ECE": 0.0461186548149314
+        },
+        "test": {
+          "ROC-AUC": 0.868483136136469,
+          "PR-AUC": 0.7637860325710016,
+          "F1": 0.6785859513346888,
+          "Precision": 0.6030214015946286,
+          "Recall": 0.7758015656399028,
+          "Balanced Accuracy": 0.804577236137626,
+          "Brier": 0.10954742322215855,
+          "ECE": 0.0738286292066984
+        },
+        "test_ci95": {
+          "ROC-AUC": [
+            0.8663078029260187,
+            0.8710075651899064
+          ],
+          "PR-AUC": [
+            0.7596884655507896,
+            0.7676730372092496
+          ],
+          "F1": [
+            0.6754148846305447,
+            0.6829019890228867
+          ],
+          "Precision": [
+            0.5989007630839598,
+            0.6081647916028928
+          ],
+          "Recall": [
+            0.7714034896598855,
+            0.7804568916717144
+          ],
+          "Balanced Accuracy": [
+            0.8021801760881628,
+            0.8074767569928528
+          ],
+          "Brier": [
+            0.10861657946747268,
+            0.1106141259710193
+          ],
+          "ECE": [
+            0.07232971357483879,
+            0.07555686553063393
+          ]
+        },
+        "threshold": 0.3484948278861701
+      },
+      "tuned": {
+        "params": {
+          "n_estimators": 500,
+          "learning_rate": 0.02,
+          "num_leaves": 63,
+          "min_child_samples": 50,
+          "subsample": 0.85,
+          "colsample_bytree": 0.8,
+          "reg_lambda": 1.0
+        },
+        "val": {
+          "ROC-AUC": 0.8678076358278013,
+          "PR-AUC": 0.6937973710004538,
+          "F1": 0.6771675366067716,
+          "Precision": 0.6718298886393841,
+          "Recall": 0.682590678400149,
+          "Balanced Accuracy": 0.8137203657700112,
+          "Brier": 0.07400928327703854,
+          "ECE": 0.06042399245126724
+        },
+        "test": {
+          "ROC-AUC": 0.8737300136177135,
+          "PR-AUC": 0.7716551346257994,
+          "F1": 0.7324209678917547,
+          "Precision": 0.7568873388154738,
+          "Recall": 0.7094868180318527,
+          "Balanced Accuracy": 0.8175639218364392,
+          "Brier": 0.10785203054534259,
+          "ECE": 0.08091597120751545
+        },
+        "test_ci95": {
+          "ROC-AUC": [
+            0.8717693300655984,
+            0.8759994325968142
+          ],
+          "PR-AUC": [
+            0.7677461837642457,
+            0.7754182631501829
+          ],
+          "F1": [
+            0.7293005154839193,
+            0.7364454575751787
+          ],
+          "Precision": [
+            0.752266405531921,
+            0.7612074723497111
+          ],
+          "Recall": [
+            0.705149678561124,
+            0.7152751571160029
+          ],
+          "Balanced Accuracy": [
+            0.8152966145246933,
+            0.8205740567869139
+          ],
+          "Brier": [
+            0.10688082949764223,
+            0.10891951640811888
+          ],
+          "ECE": [
+            0.07933433705839744,
+            0.08247266440114807
+          ]
+        },
+        "threshold": 0.3897385336215276
+      }
+    },
+    "XGBoost": {
+      "default": {
+        "params": {
+          "n_estimators": 200,
+          "learning_rate": 0.05,
+          "max_depth": 8,
+          "min_child_weight": 1,
+          "subsample": 1.0,
+          "colsample_bytree": 1.0,
+          "reg_lambda": 1.0
+        },
+        "val": {
+          "ROC-AUC": 0.8569951095558617,
+          "PR-AUC": 0.6736282837670486,
+          "F1": 0.6676129092305186,
+          "Precision": 0.6672558139534883,
+          "Recall": 0.6679703869255482,
+          "Balanced Accuracy": 0.8064371750409514,
+          "Brier": 0.08182332237223514,
+          "ECE": 0.0870874716302924
+        },
+        "test": {
+          "ROC-AUC": 0.8722231476308306,
+          "PR-AUC": 0.766789233339763,
+          "F1": 0.7286351640065352,
+          "Precision": 0.7650008246742537,
+          "Recall": 0.695570018895654,
+          "Balanced Accuracy": 0.8129249585572418,
+          "Brier": 0.1105951267219061,
+          "ECE": 0.08802434611767879
+        },
+        "test_ci95": {
+          "ROC-AUC": [
+            0.8698311591145311,
+            0.8745746787330151
+          ],
+          "PR-AUC": [
+            0.7630069331836757,
+            0.7708004254277568
+          ],
+          "F1": [
+            0.725394026245994,
+            0.7330161485416696
+          ],
+          "Precision": [
+            0.760376262827569,
+            0.7696084330928517
+          ],
+          "Recall": [
+            0.6917569394856383,
+            0.7016445224765818
+          ],
+          "Balanced Accuracy": [
+            0.8107754840644161,
+            0.8160451576468362
+          ],
+          "Brier": [
+            0.10971901522479614,
+            0.11153481569104762
+          ],
+          "ECE": [
+            0.08641987924370399,
+            0.08962091303439823
+          ]
+        },
+        "threshold": 0.38431259989738464
+      },
+      "tuned": {
+        "params": {
+          "n_estimators": 500,
+          "learning_rate": 0.03,
+          "max_depth": 8,
+          "min_child_weight": 20.0,
+          "subsample": 1.0,
+          "colsample_bytree": 0.6,
+          "reg_lambda": 1.0
+        },
+        "val": {
+          "ROC-AUC": 0.8640736854178261,
+          "PR-AUC": 0.6791910300427265,
+          "F1": 0.6744218316373728,
+          "Precision": 0.6699903505950466,
+          "Recall": 0.6789123248125902,
+          "Balanced Accuracy": 0.8118003239515101,
+          "Brier": 0.07465804586636256,
+          "ECE": 0.05235976662503802
+        },
+        "test": {
+          "ROC-AUC": 0.8712122556497853,
+          "PR-AUC": 0.7674866736098399,
+          "F1": 0.6680882742609112,
+          "Precision": 0.5766248475344137,
+          "Recall": 0.794037371404577,
+          "Balanced Accuracy": 0.8019022245552929,
+          "Brier": 0.11015792224459915,
+          "ECE": 0.08194261390579685
+        },
+        "test_ci95": {
+          "ROC-AUC": [
+            0.8692137536663779,
+            0.8733697358335121
+          ],
+          "PR-AUC": [
+            0.7635115645433458,
+            0.7716218793944907
+          ],
+          "F1": [
+            0.6647068390257552,
+            0.6719044553407086
+          ],
+          "Precision": [
+            0.5724217740189842,
+            0.5809121294661667
+          ],
+          "Recall": [
+            0.7902669632135854,
+            0.7981882279745096
+          ],
+          "Balanced Accuracy": [
+            0.7996140700518166,
+            0.8046822407150607
+          ],
+          "Brier": [
+            0.10923430974829748,
+            0.1111905986959523
+          ],
+          "ECE": [
+            0.08008674176834348,
+            0.0836284007304351
+          ]
+        },
+        "threshold": 0.3399021029472351
+      }
+    }
+  },
+  "thresholds": {
+    "default LightGBM, ClinVar only": {
+      "(a) max-F1 on validation": {
+        "Precision": 0.7179728711379051,
+        "Recall": 0.5715185507333314,
+        "F1": 0.6364289173527496,
+        "Brier": 0.1262796422009699,
+        "ECE": 0.03754088456957242
+      },
+      "(b) isotonic calibration + max-F1 on held-out half": {
+        "Precision": 0.7179728711379051,
+        "Recall": 0.5715185507333314,
+        "F1": 0.6364289173527496,
+        "Brier": 0.12969258131312933,
+        "ECE": 0.06862458333151393
+      },
+      "(c) lowest threshold with 80% validation precision": {
+        "Precision": 0.8742675538782402,
+        "Recall": 0.26402927326714853,
+        "F1": 0.4055747523612071,
+        "Brier": 0.1262796422009699,
+        "ECE": 0.03754088456957242
+      },
+      "reference: test-tuned threshold (not a valid method)": {
+        "Precision": 0.7320832362761084,
+        "Recall": 0.5655799166191776,
+        "F1": 0.6381495456775919,
+        "Brier": 0.1262796422009699,
+        "ECE": 0.03754088456957242
+      }
+    },
+    "default LightGBM, + gnomAD constraint": {
+      "(a) max-F1 on validation": {
+        "Precision": 0.5356518229517019,
+        "Recall": 0.7165052038031253,
+        "F1": 0.6130178729519239,
+        "Brier": 0.1308385610462432,
+        "ECE": 0.08135021114834443
+      },
+      "(b) isotonic calibration + max-F1 on held-out half": {
+        "Precision": 0.5356518229517019,
+        "Recall": 0.7165052038031253,
+        "F1": 0.6130178729519239,
+        "Brier": 0.12595889902927823,
+        "ECE": 0.04648232193244133
+      },
+      "(c) lowest threshold with 80% validation precision": {
+        "Precision": 0.7878472583498075,
+        "Recall": 0.45421553042800156,
+        "F1": 0.576222818332287,
+        "Brier": 0.1308385610462432,
+        "ECE": 0.08135021114834443
+      },
+      "reference: test-tuned threshold (not a valid method)": {
+        "Precision": 0.7495991118786234,
+        "Recall": 0.546804235025944,
+        "F1": 0.6323401893794873,
+        "Brier": 0.1308385610462432,
+        "ECE": 0.08135021114834443
+      }
+    },
+    "default LightGBM, + AlphaMissense": {
+      "(a) max-F1 on validation": {
+        "Precision": 0.8123320337635792,
+        "Recall": 0.6436819531507754,
+        "F1": 0.718239625167336,
+        "Brier": 0.10872883836621795,
+        "ECE": 0.07378197272040367
+      },
+      "(b) isotonic calibration + max-F1 on held-out half": {
+        "Precision": 0.8123320337635792,
+        "Recall": 0.6436819531507754,
+        "F1": 0.718239625167336,
+        "Brier": 0.10496287472047913,
+        "ECE": 0.05747785580240587
+      },
+      "(c) lowest threshold with 80% validation precision": {
+        "Precision": 0.905018573821837,
+        "Recall": 0.3726642872139408,
+        "F1": 0.5279371149352029,
+        "Brier": 0.10872883836621795,
+        "ECE": 0.07378197272040367
+      },
+      "reference: test-tuned threshold (not a valid method)": {
+        "Precision": 0.7605817093405343,
+        "Recall": 0.7011787288923548,
+        "F1": 0.7296732107743688,
+        "Brier": 0.10872883836621795,
+        "ECE": 0.07378197272040367
+      }
+    },
+    "default LightGBM, + both": {
+      "(a) max-F1 on validation": {
+        "Precision": 0.6030214015946286,
+        "Recall": 0.7758015656399028,
+        "F1": 0.6785859513346888,
+        "Brier": 0.10954742322215855,
+        "ECE": 0.0738286292066984
+      },
+      "(b) isotonic calibration + max-F1 on held-out half": {
+        "Precision": 0.603002540970231,
+        "Recall": 0.7758315587414895,
+        "F1": 0.678585482305412,
+        "Brier": 0.10213379721016978,
+        "ECE": 0.024116800197450085
+      },
+      "(c) lowest threshold with 80% validation precision": {
+        "Precision": 0.8181625651234699,
+        "Recall": 0.5793467502474431,
+        "F1": 0.6783494293239684,
+        "Brier": 0.10954742322215855,
+        "ECE": 0.0738286292066984
+      },
+      "reference: test-tuned threshold (not a valid method)": {
+        "Precision": 0.7740916271721959,
+        "Recall": 0.6907411295402057,
+        "F1": 0.7300450136308883,
+        "Brier": 0.10954742322215855,
+        "ECE": 0.0738286292066984
+      }
+    },
+    "tuned LightGBM, + both": {
+      "(a) max-F1 on validation": {
+        "Precision": 0.7568873388154738,
+        "Recall": 0.7094868180318527,
+        "F1": 0.7324209678917547,
+        "Brier": 0.10785203054534259,
+        "ECE": 0.08091597120751545
+      },
+      "(b) isotonic calibration + max-F1 on held-out half": {
+        "Precision": 0.7568873388154738,
+        "Recall": 0.7094868180318527,
+        "F1": 0.7324209678917547,
+        "Brier": 0.10004359050995591,
+        "ECE": 0.019476839899461806
+      },
+      "(c) lowest threshold with 80% validation precision": {
+        "Precision": 0.8296853337814561,
+        "Recall": 0.5923337632344561,
+        "F1": 0.6912011759764805,
+        "Brier": 0.10785203054534259,
+        "ECE": 0.08091597120751545
+      },
+      "reference: test-tuned threshold (not a valid method)": {
+        "Precision": 0.772316123068797,
+        "Recall": 0.7016886116193276,
+        "F1": 0.7353102949727343,
+        "Brier": 0.10785203054534259,
+        "ECE": 0.08091597120751545
+      }
+    },
+    "tuned XGBoost, + both": {
+      "(a) max-F1 on validation": {
+        "Precision": 0.5766248475344137,
+        "Recall": 0.794037371404577,
+        "F1": 0.6680882742609112,
+        "Brier": 0.11015792224459915,
+        "ECE": 0.08194261390579685
+      },
+      "(b) isotonic calibration + max-F1 on held-out half": {
+        "Precision": 0.5766248475344137,
+        "Recall": 0.794037371404577,
+        "F1": 0.6680882742609112,
+        "Brier": 0.10274894767277905,
+        "ECE": 0.02894570476788242
+      },
+      "(c) lowest threshold with 80% validation precision": {
+        "Precision": 0.8181389567528181,
+        "Recall": 0.5725083230856903,
+        "F1": 0.6736307171089779,
+        "Brier": 0.11015792224459915,
+        "ECE": 0.08194261390579685
+      },
+      "reference: test-tuned threshold (not a valid method)": {
+        "Precision": 0.7624478623566214,
+        "Recall": 0.7017785909240875,
+        "F1": 0.7308563307251402,
+        "Brier": 0.11015792224459915,
+        "ECE": 0.08194261390579685
+      }
+    }
+  },
+  "runtime_minutes": 33.519803607463835,
+  "tuned_lightgbm_with_position_check": {
+    "ROC-AUC": 0.8738895149535454,
+    "PR-AUC": 0.7791636874893306,
+    "F1": 0.6809296320206585,
+    "Precision": 0.5978145049763087,
+    "Recall": 0.7908880957379802,
+    "ci": [
+      0.7751252437169162,
+      0.7828770321902405
+    ]
+  }
+}
