@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import {
-  FileText, Calendar, Download, Copy, Check, ExternalLink,
-  ChevronRight, Search, Filter, AlertTriangle, ShieldCheck,
-  CheckCircle, ArrowUpRight, BarChart2
+  FileText, Calendar, Copy, Check,
+  CheckCircle, BarChart2
 } from 'lucide-react';
 import { clsx } from 'clsx';
-import { PageHeader, SectionHeader, InfoBox, LimitationBox } from '../components/shared';
-import { reportsCatalogue } from '../data/researchData';
+import { PageHeader, LimitationBox } from '../components/shared';
 
 interface ReportDetail {
   id: string;
@@ -26,12 +24,12 @@ interface ReportDetail {
 const detailedReports: Record<string, ReportDetail> = {
   baseline: {
     id: 'baseline',
-    title: 'ClinVar-Only Baseline Evaluation',
+    title: 'ClinVar-Only Baseline Architecture Evaluation',
     date: '2026-10-08',
     category: 'Baseline',
     abstract: 'Evaluates five fundamental classification architectures (Logistic Regression, Random Forest, XGBoost, MLP, LightGBM) trained solely on ClinVar internal features with strict chromosome-isolated hold-out.',
     metricsTable: {
-      headers: ['Model', 'ROC-AUC', 'PR-AUC', 'F1 Score', 'Precision', 'Recall', 'Brier'],
+      headers: ['Model', 'ROC-AUC', 'PR-AUC', 'F1 Score', 'Precision', 'Recall', 'Brier Score'],
       rows: [
         ['Logistic Regression', '0.812 ± 0.000', '0.683 ± 0.000', '0.630', '0.705', '0.569', '0.140'],
         ['Random Forest', '0.808 ± 0.001', '0.668 ± 0.002', '0.633', '0.727', '0.561', '0.147'],
@@ -206,10 +204,10 @@ than filtering training data to high-confidence rows only.`,
     metricsTable: {
       headers: ['Model & Rank', 'Cross-Validation PR-AUC', 'Fold Std Dev', 'Parameters', 'Is Default?'],
       rows: [
-        ['LightGBM Rank 1', '0.7990', '±0.0178', 'n_est=500, lr=0.02, num_leaves=63, λ=1.0', 'No (Tuned)'],
+        ['LightGBM Rank 1', '0.7990', '±0.0178', 'n_est=500, lr=0.02, num_leaves=63, λ=1.0', 'No (Optimal)'],
         ['LightGBM Rank 2', '0.7984', '±0.0175', 'n_est=500, lr=0.02, num_leaves=127, λ=0.0', 'No'],
         ['LightGBM Rank 3', '0.7978', '±0.0173', 'n_est=300, lr=0.05, num_leaves=63, λ=0.0', 'Yes (Default)'],
-        ['XGBoost Rank 1', '0.7979', '±0.0166', 'n_est=500, lr=0.03, max_depth=8, λ=1.0', 'No (Tuned)'],
+        ['XGBoost Rank 1', '0.7979', '±0.0166', 'n_est=500, lr=0.03, max_depth=8, λ=1.0', 'No (Optimal)'],
         ['XGBoost Rank 4', '0.7965', '±0.0174', 'n_est=200, lr=0.05, max_depth=8, λ=1.0', 'Yes (Default)'],
       ],
     },
@@ -266,7 +264,6 @@ export default function ResearchReports() {
   const [copied, setCopied] = useState<boolean>(false);
 
   const report = detailedReports[activeReportId] ?? detailedReports.annotated;
-
   const categories = ['All', 'Baseline', 'Annotations', 'Generalization', 'Methodology'];
 
   const filteredReportList = Object.values(detailedReports).filter(r =>
@@ -280,34 +277,34 @@ export default function ResearchReports() {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="page-enter space-y-8 max-w-7xl">
       <PageHeader
         title="Genomics Research Reports"
-        description="Comprehensive evaluation manuscripts and audits generated directly from VariantIQ computational pipelines with verifiable metrics."
-        badge="Peer-Review Ready"
+        description="Comprehensive evaluation manuscripts and audits generated directly from VariantIQ computational pipelines with verifiable empirical metrics."
+        badge="Peer-Review Manuscripts"
       />
 
-      {/* Filter and selector */}
+      {/* Catalogue & Reader Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left column: Report Index */}
         <div className="lg:col-span-1 space-y-4">
-          <div className="card p-4 space-y-3">
+          <div className="card !p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Catalogue</span>
-              <span className="text-xs text-slate-500 font-mono">7 Reports</span>
+              <span className="text-xs font-heading font-bold text-[#292D29] dark:text-[#EAE7DD] uppercase tracking-wider">Catalogue</span>
+              <span className="text-xs text-[#72776E] dark:text-[#9FA59A] font-mono">7 Reports</span>
             </div>
 
             {/* Category filter pills */}
-            <div className="flex flex-wrap gap-1.5 pb-2 border-b border-navy-700/60">
+            <div className="flex flex-wrap gap-1.5 pb-2 border-b border-[#DED9CC]/60 dark:border-[#2E3E34]/60">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setFilterCategory(cat)}
                   className={clsx(
-                    'text-[11px] px-2.5 py-1 rounded-md font-medium transition-colors',
+                    'text-[10px] px-2 py-0.5 rounded font-heading font-semibold transition-colors',
                     filterCategory === cat
-                      ? 'bg-teal-500/20 text-teal-300 border border-teal-500/30'
-                      : 'bg-navy-900/60 text-slate-400 hover:text-slate-200 border border-navy-700/50'
+                      ? 'bg-[#243D32] dark:bg-[#2E4D40] text-[#FFFEFA]'
+                      : 'bg-[#F5F2EA] dark:bg-[#141C17] text-[#72776E] dark:text-[#9FA59A] hover:text-[#292D29] dark:hover:text-[#EAE7DD]'
                   )}
                 >
                   {cat}
@@ -316,7 +313,7 @@ export default function ResearchReports() {
             </div>
 
             {/* Report list */}
-            <div className="space-y-1.5 max-h-[600px] overflow-y-auto pr-1">
+            <div className="space-y-1.5 max-h-[600px] overflow-y-auto pr-0.5">
               {filteredReportList.map((item) => {
                 const isSelected = item.id === activeReportId;
                 return (
@@ -329,17 +326,22 @@ export default function ResearchReports() {
                     className={clsx(
                       'w-full text-left p-3 rounded-xl border transition-all duration-150',
                       isSelected
-                        ? 'bg-teal-500/15 border-teal-500/50 shadow-md shadow-teal-500/5'
-                        : 'bg-navy-950/40 border-navy-800/80 hover:bg-navy-800/40 hover:border-navy-700'
+                        ? 'bg-[#243D32] dark:bg-[#2E4D40] text-[#FFFEFA] border-[#1C3228] shadow-sm'
+                        : 'bg-[#FFFEFA] dark:bg-[#1D2A23] border-[#DED9CC] dark:border-[#2E3E34] hover:border-[#84977A]'
                     )}
                   >
-                    <div className="flex items-center justify-between text-[10px] text-slate-400 mb-1">
-                      <span className="font-mono">{item.date}</span>
-                      <span className="px-1.5 py-0.5 rounded bg-navy-800/70 border border-navy-700/60 text-cyan-400">
+                    <div className="flex items-center justify-between text-[10px] mb-1">
+                      <span className={clsx('font-mono', isSelected ? 'text-[#EDEAE0]' : 'text-[#72776E] dark:text-[#9FA59A]')}>
+                        {item.date}
+                      </span>
+                      <span className={clsx(
+                        'px-1.5 py-0.2 rounded font-mono text-[9px] uppercase',
+                        isSelected ? 'bg-[#1C3228] text-[#D08264]' : 'bg-[#F5F2EA] dark:bg-[#141C17] text-[#84977A]'
+                      )}>
                         {item.category}
                       </span>
                     </div>
-                    <div className={clsx('text-xs font-semibold leading-snug line-clamp-2', isSelected ? 'text-slate-100' : 'text-slate-300')}>
+                    <div className={clsx('text-xs font-heading font-semibold leading-snug line-clamp-2', isSelected ? 'text-[#FFFEFA]' : 'text-[#292D29] dark:text-[#EAE7DD]')}>
                       {item.title}
                     </div>
                   </button>
@@ -351,20 +353,20 @@ export default function ResearchReports() {
 
         {/* Right column: Report Reader View */}
         <div className="lg:col-span-3 space-y-6">
-          <div className="card p-6 border border-navy-700/80 bg-navy-900/90 rounded-2xl relative">
+          <div className="card !p-6 space-y-6">
             {/* Header info */}
-            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 border-b border-navy-700/60">
+            <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 pb-6 border-b border-[#DED9CC] dark:border-[#2E3E34]">
               <div>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="badge badge-cyan font-mono text-[11px]">{report.category}</span>
-                  <span className="text-xs text-slate-400 flex items-center gap-1 font-mono">
-                    <Calendar size={13} className="text-slate-500" />
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className="badge badge-sage font-mono text-[10px]">{report.category}</span>
+                  <span className="text-xs text-[#72776E] dark:text-[#9FA59A] flex items-center gap-1 font-mono">
+                    <Calendar size={13} className="text-[#84977A]" />
                     {report.date}
                   </span>
-                  <span className="text-xs text-teal-400 font-mono">output/reports/{report.id}_report.md</span>
+                  <span className="text-xs text-[#243D32] dark:text-[#8FA385] font-mono">output/reports/{report.id}_report.md</span>
                 </div>
-                <h2 className="text-2xl font-bold text-slate-100">{report.title}</h2>
-                <p className="text-slate-300 text-sm mt-2 leading-relaxed max-w-3xl">{report.abstract}</p>
+                <h2 className="text-2xl font-heading font-bold text-[#292D29] dark:text-[#EAE7DD]">{report.title}</h2>
+                <p className="text-[#72776E] dark:text-[#9FA59A] text-xs md:text-sm mt-2 leading-relaxed max-w-3xl">{report.abstract}</p>
               </div>
 
               <div className="flex items-center gap-2 flex-shrink-0">
@@ -380,33 +382,33 @@ export default function ResearchReports() {
                   className="btn btn-secondary text-xs flex items-center gap-1.5"
                   title="Copy Report Markdown"
                 >
-                  {copied ? <Check size={14} className="text-teal-400" /> : <Copy size={14} />}
-                  <span>{copied ? 'Copied!' : 'Copy'}</span>
+                  {copied ? <Check size={14} className="text-[#586B50] dark:text-[#A1B596]" /> : <Copy size={14} />}
+                  <span>{copied ? 'Copied' : 'Copy'}</span>
                 </button>
               </div>
             </div>
 
             {/* Main content body */}
             {showMarkdown ? (
-              <div className="pt-6 animate-fade-in">
-                <div className="flex items-center justify-between mb-3 text-xs text-slate-400 font-mono">
-                  <span>Markdown Raw Source</span>
+              <div className="pt-2 animate-fade-in space-y-2">
+                <div className="flex items-center justify-between text-xs text-[#72776E] dark:text-[#9FA59A] font-mono">
+                  <span>Raw Markdown Source</span>
                   <span>UTF-8 Document</span>
                 </div>
-                <pre className="p-4 bg-navy-950 rounded-xl border border-navy-800 text-xs text-slate-300 font-mono overflow-x-auto leading-relaxed">
+                <pre className="p-4 bg-[#F5F2EA] dark:bg-[#141C17] rounded-xl border border-[#DED9CC] dark:border-[#2E3E34] text-xs text-[#292D29] dark:text-[#EAE7DD] font-mono overflow-x-auto leading-relaxed">
                   {report.markdownExcerpt}
                 </pre>
               </div>
             ) : (
-              <div className="pt-6 space-y-6 animate-fade-in">
+              <div className="space-y-6 animate-fade-in">
                 {/* Metrics Table */}
                 {report.metricsTable && (
                   <div>
-                    <h3 className="text-xs font-semibold uppercase tracking-wider text-teal-400 mb-3 flex items-center gap-1.5">
-                      <BarChart2 size={14} />
-                      Evaluated Metrics Table
+                    <h3 className="text-xs font-heading font-bold uppercase tracking-wider text-[#243D32] dark:text-[#8FA385] mb-3 flex items-center gap-1.5">
+                      <BarChart2 size={14} className="text-[#B96F52]" />
+                      Empirical Evaluation Results
                     </h3>
-                    <div className="overflow-x-auto rounded-xl border border-navy-700/70">
+                    <div className="overflow-x-auto rounded-xl border border-[#DED9CC] dark:border-[#2E3E34]">
                       <table className="data-table">
                         <thead>
                           <tr>
@@ -417,13 +419,13 @@ export default function ResearchReports() {
                         </thead>
                         <tbody>
                           {report.metricsTable.rows.map((row, rIdx) => (
-                            <tr key={rIdx} className={rIdx === 0 ? 'bg-teal-500/5' : undefined}>
+                            <tr key={rIdx} className={rIdx === 0 ? 'bg-[#F5F2EA]/40 dark:bg-[#141C17]/40' : undefined}>
                               {row.map((val, cIdx) => (
                                 <td
                                   key={cIdx}
                                   className={clsx(
-                                    cIdx === 0 ? 'font-medium text-slate-200' : 'font-mono text-slate-300',
-                                    (cIdx === 1 || cIdx === 2) && 'font-semibold text-teal-300'
+                                    cIdx === 0 ? 'font-heading font-semibold text-[#292D29] dark:text-[#EAE7DD]' : 'font-mono text-[#72776E] dark:text-[#9FA59A]',
+                                    (cIdx === 1 || cIdx === 2) && '!text-[#243D32] dark:!text-[#8FA385] !font-bold'
                                   )}
                                 >
                                   {val}
@@ -439,17 +441,17 @@ export default function ResearchReports() {
 
                 {/* Key Takeaways */}
                 <div>
-                  <h3 className="text-xs font-semibold uppercase tracking-wider text-teal-400 mb-3 flex items-center gap-1.5">
-                    <CheckCircle size={14} />
-                    Key Research Takeaways
+                  <h3 className="text-xs font-heading font-bold uppercase tracking-wider text-[#243D32] dark:text-[#8FA385] mb-3 flex items-center gap-1.5">
+                    <CheckCircle size={14} className="text-[#84977A]" />
+                    Key Research Findings
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {report.keyTakeaways.map((point, idx) => (
-                      <div key={idx} className="p-3.5 rounded-xl bg-navy-950/60 border border-navy-800/80 flex items-start gap-2.5">
-                        <span className="w-5 h-5 rounded-full bg-teal-500/10 text-teal-400 flex items-center justify-center text-xs flex-shrink-0 mt-0.5">
+                      <div key={idx} className="p-3.5 rounded-xl bg-[#F5F2EA]/60 dark:bg-[#141C17]/60 border border-[#DED9CC] dark:border-[#2E3E34] flex items-start gap-2.5">
+                        <span className="w-5 h-5 rounded-full bg-[#243D32] dark:bg-[#2E4D40] text-[#FFFEFA] flex items-center justify-center text-[10px] font-heading font-bold flex-shrink-0 mt-0.5">
                           {idx + 1}
                         </span>
-                        <span className="text-xs text-slate-300 leading-relaxed">{point}</span>
+                        <span className="text-xs text-[#292D29] dark:text-[#EAE7DD] leading-relaxed">{point}</span>
                       </div>
                     ))}
                   </div>

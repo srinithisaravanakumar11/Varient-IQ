@@ -1,8 +1,8 @@
 import {
-  AlertTriangle, ShieldAlert, BookOpen, Dna, FileCheck,
-  ExternalLink, CheckCircle, Scale, Database, Cpu, Layers
+  ShieldAlert, Dna,
+  ExternalLink, CheckCircle, Scale, Cpu, Layers
 } from 'lucide-react';
-import { PageHeader, SectionHeader, LimitationBox, InfoBox } from '../components/shared';
+import { PageHeader, SectionHeader, LimitationBox } from '../components/shared';
 
 const citations = [
   {
@@ -32,34 +32,34 @@ const citations = [
 ];
 
 const technicalAudits = [
-  { title: 'Zero Train/Test Overlap', desc: 'Partitioned by chromosome: train (1–18), val (19–20), test (21, 22, X). Zero identical variant keys appear across sets.' },
-  { title: 'Out-of-Fold Gene Priors', desc: 'Gene-level target encodings are computed exclusively out-of-fold to eliminate gene-identity memorization.' },
+  { title: 'Strict Chromosome Isolation', desc: 'Partitioned by chromosome: train (1–18), val (19–20), test (21, 22, X). Zero identical variant keys appear across partitions.' },
+  { title: 'Out-of-Fold Gene Priors', desc: 'Gene-level target encodings are computed strictly out-of-fold to eliminate gene-identity memorization.' },
   { title: 'Bootstrap Confidence Bounds', desc: 'All reported evaluation metrics include 95% bootstrap confidence intervals derived from 1,000 resamples.' },
-  { title: 'Prospective Temporal Validation', desc: 'Models trained on historical 2025 releases are verified against 201,812 newly submitted 2026 variants.' },
+  { title: 'Prospective Temporal Validation', desc: 'Models trained on historical 2025 releases are verified against 201,812 newly cataloged 2026 variants.' },
 ];
 
 export default function AboutLimitations() {
   return (
-    <div className="space-y-8 animate-fade-in max-w-5xl">
+    <div className="page-enter space-y-8 max-w-5xl">
       <PageHeader
         title="About VariantIQ & Scientific Limitations"
         description="Scientific disclosure of research objectives, regulatory boundaries, data provenance, and algorithmic constraints."
-        badge="Academic Research Only"
+        badge="Academic Research Platform"
       />
 
       {/* Prominent Regulatory / Clinical Disclaimer Banner */}
-      <div className="p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent space-y-3">
-        <div className="flex items-center gap-2.5 text-amber-400 font-bold text-sm uppercase tracking-wider">
-          <ShieldAlert size={20} className="text-amber-400 flex-shrink-0" />
-          <span>Research Platform — Not a Clinically Validated Diagnostic Medical Device</span>
+      <div className="p-6 rounded-2xl border border-[rgba(182,138,58,0.35)] bg-[#FFFEFA] dark:bg-[#1D2A23] space-y-3 shadow-sm border-l-4 border-l-[#B68A3A]">
+        <div className="flex items-center gap-2.5 text-[#8C661D] dark:text-[#E2BC6B] font-heading font-bold text-sm uppercase tracking-wider">
+          <ShieldAlert size={20} className="text-[#B68A3A] flex-shrink-0" />
+          <span>Research Platform — Not a Clinically Validated Diagnostic Device</span>
         </div>
-        <p className="text-slate-200 text-sm leading-relaxed">
+        <p className="text-[#292D29] dark:text-[#EAE7DD] text-xs md:text-sm leading-relaxed">
           VariantIQ is an exploratory machine-learning benchmark platform designed strictly for computational genomics research,
           algorithmic comparison, and functional variant prioritization. It has <strong>not</strong> been reviewed, cleared, or approved
           by the U.S. FDA, EMA, or any other health authority. It must <strong>not</strong> be utilized as the basis for clinical diagnosis,
           patient stratification, therapeutic decision-making, or genetic counseling.
         </p>
-        <div className="text-xs text-amber-300/80 pt-1 font-mono">
+        <div className="text-[11px] text-[#8C661D] dark:text-[#E2BC6B] pt-1 font-mono">
           Intended Use: In silico research and methodology benchmarking only. CLIA / CAP validated protocols required for clinical utility.
         </div>
       </div>
@@ -72,48 +72,48 @@ export default function AboutLimitations() {
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="card p-5 space-y-2 border-l-4 border-l-teal-500">
-            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-              <Dna size={16} className="text-teal-400" />
+          <div className="card p-5 space-y-2 border-l-4 !border-l-[#243D32] dark:!border-l-[#8FA385]">
+            <h3 className="text-sm font-heading font-bold text-[#292D29] dark:text-[#EAE7DD] flex items-center gap-2">
+              <Dna size={16} className="text-[#243D32] dark:text-[#8FA385]" />
               AlphaMissense Drives Annotation Lift
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-[#72776E] dark:text-[#9FA59A] leading-relaxed">
               External biological features lift overall ROC-AUC from 0.812 to 0.871. However, subpopulation disaggregation reveals that
               this entire gain is concentrated within missense SNVs (ROC-AUC 0.729 → 0.962). Unscored SNVs and structural variants show zero
               statistically significant improvement from the current annotation library.
             </p>
           </div>
 
-          <div className="card p-5 space-y-2 border-l-4 border-l-cyan-500">
-            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-              <Layers size={16} className="text-cyan-400" />
+          <div className="card p-5 space-y-2 border-l-4 !border-l-[#84977A]">
+            <h3 className="text-sm font-heading font-bold text-[#292D29] dark:text-[#EAE7DD] flex items-center gap-2">
+              <Layers size={16} className="text-[#84977A]" />
               The 15.4% Coverage Boundary
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-[#72776E] dark:text-[#9FA59A] leading-relaxed">
               AlphaMissense scores are available for only 15.4% of variants in our test hold-out (20,800 missense SNVs). For the remaining
               84.6% of variants (frameshifts, stop-gained, indels, and non-coding alterations), predictions depend entirely on genomic
               coordinates and gene-level constraint.
             </p>
           </div>
 
-          <div className="card p-5 space-y-2 border-l-4 border-l-amber-500">
-            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-              <Scale size={16} className="text-amber-400" />
+          <div className="card p-5 space-y-2 border-l-4 !border-l-[#B68A3A]">
+            <h3 className="text-sm font-heading font-bold text-[#292D29] dark:text-[#EAE7DD] flex items-center gap-2">
+              <Scale size={16} className="text-[#B68A3A]" />
               Label Quality & Submitter Bias
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-[#72776E] dark:text-[#9FA59A] leading-relaxed">
               ClinVar records vary widely in curation rigor (from single clinical submitters to expert panels). Our sensitivity audit
               demonstrated that models trained across all 1.4M variants generalize effectively to expert-reviewed (2+ star) variants
               (ROC-AUC 0.869) without succumbing to noise artefacts.
             </p>
           </div>
 
-          <div className="card p-5 space-y-2 border-l-4 border-l-indigo-500">
-            <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-              <Cpu size={16} className="text-indigo-400" />
+          <div className="card p-5 space-y-2 border-l-4 !border-l-[#B96F52] dark:!border-l-[#D08264]">
+            <h3 className="text-sm font-heading font-bold text-[#292D29] dark:text-[#EAE7DD] flex items-center gap-2">
+              <Cpu size={16} className="text-[#B96F52] dark:text-[#D08264]" />
               Model Architecture Invariance
             </h3>
-            <p className="text-xs text-slate-300 leading-relaxed">
+            <p className="text-xs text-[#72776E] dark:text-[#9FA59A] leading-relaxed">
               When supplied with state-of-the-art annotations, linear Logistic Regression (ROC-AUC 0.872, PR-AUC 0.775) performs
               competitively with deep MLPs and gradient-boosted trees (LightGBM 0.871, XGBoost 0.873). High-quality biological representations
               trump algorithmic complexity.
@@ -123,7 +123,7 @@ export default function AboutLimitations() {
       </div>
 
       {/* Rigorous Leakage Prevention */}
-      <div className="card p-6 space-y-4">
+      <div className="card !p-6 space-y-4">
         <SectionHeader
           title="Data Integrity & Leakage Prevention Measures"
           subtitle="Procedures implemented in src/audit_splits.py and src/gene_encoding.py"
@@ -131,12 +131,12 @@ export default function AboutLimitations() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {technicalAudits.map((item, idx) => (
-            <div key={idx} className="p-4 rounded-xl bg-navy-950/60 border border-navy-700/60 space-y-1.5">
-              <div className="flex items-center gap-2 text-xs font-semibold text-teal-300">
-                <CheckCircle size={14} className="text-teal-400" />
+            <div key={idx} className="p-4 rounded-xl bg-[#F5F2EA]/60 dark:bg-[#141C17]/60 border border-[#DED9CC] dark:border-[#2E3E34] space-y-1.5">
+              <div className="flex items-center gap-2 text-xs font-heading font-bold text-[#243D32] dark:text-[#8FA385]">
+                <CheckCircle size={14} className="text-[#84977A]" />
                 <span>{item.title}</span>
               </div>
-              <p className="text-xs text-slate-400 leading-relaxed">{item.desc}</p>
+              <p className="text-xs text-[#72776E] dark:text-[#9FA59A] leading-relaxed">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -151,24 +151,24 @@ export default function AboutLimitations() {
 
         <div className="space-y-3">
           {citations.map((c, i) => (
-            <div key={i} className="card p-5 space-y-2">
+            <div key={i} className="card !p-5 space-y-2">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <h3 className="text-sm font-semibold text-slate-100">{c.title}</h3>
+                <h3 className="text-sm font-heading font-bold text-[#292D29] dark:text-[#EAE7DD]">{c.title}</h3>
                 <a
                   href={c.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-teal-400 hover:text-teal-300 flex items-center gap-1 font-mono flex-shrink-0"
+                  className="text-xs text-[#B96F52] dark:text-[#D08264] hover:underline flex items-center gap-1 font-mono flex-shrink-0"
                 >
                   <span>DOI: {c.doi}</span>
                   <ExternalLink size={12} />
                 </a>
               </div>
-              <p className="text-xs text-slate-400">{c.authors}</p>
-              <div className="flex flex-wrap items-center gap-3 text-xs pt-1 border-t border-navy-800">
-                <span className="text-slate-300 font-medium">{c.journal}</span>
-                <span className="text-slate-600">·</span>
-                <span className="text-amber-400 font-mono text-[11px] bg-amber-950/40 px-2 py-0.5 rounded border border-amber-900/40">
+              <p className="text-xs text-[#72776E] dark:text-[#9FA59A]">{c.authors}</p>
+              <div className="flex flex-wrap items-center gap-3 text-xs pt-1 border-t border-[#DED9CC]/60 dark:border-[#2E3E34]/60">
+                <span className="text-[#292D29] dark:text-[#EAE7DD] font-medium">{c.journal}</span>
+                <span className="text-[#9E9B90]">·</span>
+                <span className="badge badge-amber font-mono text-[10px]">
                   {c.license}
                 </span>
               </div>

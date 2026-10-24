@@ -1,12 +1,9 @@
 import { useState } from 'react';
 import {
-  GitBranch, Database, ShieldCheck, CheckCircle2,
-  FileCode2, Sparkles, Filter, ChevronRight,
-  ExternalLink, Layers
+  ShieldCheck, CheckCircle2, FileCode2, Layers
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { PageHeader, SectionHeader, MetricCard, LimitationBox, InfoBox } from '../components/shared';
-import { datasetSizes } from '../data/researchData';
 
 interface PipelineStage {
   id: string;
@@ -24,62 +21,62 @@ const stages: PipelineStage[] = [
   {
     id: 'ingestion',
     name: '1. ClinVar Ingestion & Harmonization',
-    subtitle: 'Raw variant normalization & binary labeling',
+    subtitle: 'Raw variant coordinate normalization & binary clinical target mapping',
     script: 'src/preprocess_clinvar.py',
-    input: 'ClinVar XML / VCF release dump (hg38)',
+    input: 'ClinVar XML / VCF release dump (GRCh38 / hg38)',
     output: '1,702,326 harmonized variant records',
-    description: 'Extracts coordinates, alleles, clinical classifications, and review status. Harmonizes conflicting classifications and maps to binary clinical targets.',
+    description: 'Extracts genomic coordinates, reference/alternate alleles, clinical classifications, and submitter review statuses. Resolves conflicting clinical classifications and maps records to clean binary targets.',
     details: [
-      'Positive class (1): "Pathogenic", "Likely pathogenic", "Pathogenic/Likely pathogenic"',
-      'Negative class (0): "Benign", "Likely benign", "Benign/Likely benign"',
-      'Variants of Uncertain Significance (VUS) and conflicting interpretations without consensus are held out from binary benchmark',
-      'Normalized genomic coordinates (GRCh38 / hg38) with standardized INDEL left-alignment',
+      'Binary positive class (1): "Pathogenic", "Likely pathogenic", "Pathogenic/Likely pathogenic"',
+      'Binary negative class (0): "Benign", "Likely benign", "Benign/Likely benign"',
+      'Variants of Uncertain Significance (VUS) and discordant classifications held out from binary benchmark',
+      'Canonical genomic coordinates (GRCh38 / hg38) with standardized INDEL left-alignment',
     ],
     metrics: [
       { label: 'Total Records', val: '1,702,326' },
-      { label: 'Classes', val: 'Binary (P vs B)' },
+      { label: 'Target Frame', val: 'Binary (P vs B)' },
       { label: 'Coordinate Frame', val: 'GRCh38 / hg38' },
     ],
   },
   {
     id: 'split',
     name: '2. Chromosome Hold-out Partitioning',
-    subtitle: 'Leakage-resistant train / val / test allocation',
+    subtitle: 'Leakage-resistant train / val / test genomic segregation',
     script: 'src/audit_splits.py',
-    input: '1,702,326 harmonized records',
+    input: '1,702,326 harmonized variant records',
     output: 'Train (83.1%) · Val (8.9%) · Test (8.0%)',
     description: 'Partitions variants strictly by chromosome to prevent genomic linkage and gene-memorization leakage between training and evaluation partitions.',
     details: [
-      'Train split: Autosomes 1 through 18 (1,415,482 variants)',
-      'Validation split: Chromosomes 19 and 20 (151,323 variants) for hyperparameter selection and threshold tuning',
-      'Test split: Chromosomes 21, 22, and X (135,521 variants) for final unbiased model reporting',
-      'Zero variant key overlap across splits (0 duplicate keys, 0 conflicting labels)',
+      'Training split: Autosomes 1 through 18 (1,415,482 variants)',
+      'Validation split: Chromosomes 19 and 20 (151,323 variants) for threshold tuning and hyperparameter selection',
+      'Hold-out test split: Chromosomes 21, 22, and X (135,521 variants) for final unbiased metric reporting',
+      'Zero variant key overlap across partitions (0 duplicate keys, 0 conflicting labels)',
       'Test rows whose gene appears in train: strictly 0.1% (5 of 1,557 test genes)',
     ],
     metrics: [
       { label: 'Train Set', val: '1,415,482 (83.1%)' },
       { label: 'Val Set', val: '151,323 (8.9%)' },
-      { label: 'Test Set', val: '135,521 (8.0%)' },
+      { label: 'Hold-Out Test', val: '135,521 (8.0%)' },
       { label: 'Key Overlap', val: '0 (0.00%)' },
     ],
   },
   {
     id: 'encoding',
     name: '3. Feature Engineering & Gene Encoding',
-    subtitle: 'Out-of-fold target encoding & sequence properties',
+    subtitle: 'Out-of-fold target encoding & sequence characterization',
     script: 'src/features.py, src/gene_encoding.py',
-    input: 'Variant metadata & chromosomal splits',
-    output: '181 ClinVar baseline feature vectors',
-    description: 'Constructs tabular representation from sequence coordinates, allele lengths, molecular variant types, and out-of-fold gene-level pathogenicity rates.',
+    input: 'Variant metadata & chromosomal partitions',
+    output: '181 ClinVar baseline feature columns',
+    description: 'Constructs tabular representations from sequence coordinates, allele length deltas, molecular variant consequences, and out-of-fold gene-level pathogenicity priors.',
     details: [
       'Variant structural metrics: REF length, ALT length, length delta, INDEL classification flags',
-      'One-hot encoded variant consequences (missense, frameshift, nonsense, splice site, non-coding)',
+      'One-hot encoded molecular consequences (missense, frameshift, nonsense, splice site, non-coding)',
       'ReviewStatus provenance indicator (0 to 4 review stars encoding submission stringency)',
-      'Gene target encoding: calculated strictly Out-Of-Fold (OOF) on training data; validation and test sets receive frozen train-time priors',
+      'Gene target encoding: calculated strictly Out-Of-Fold (OOF) on training data; validation and test receive frozen priors',
     ],
     metrics: [
       { label: 'Baseline Features', val: '181 columns' },
-      { label: 'Encoding Mode', val: 'Out-of-Fold' },
+      { label: 'Encoding Mode', val: 'Out-of-Fold (OOF)' },
       { label: 'Review Signals', val: '0–4 Star Weights' },
     ],
   },
@@ -89,12 +86,12 @@ const stages: PipelineStage[] = [
     subtitle: 'AlphaMissense (hg38) & gnomAD v4.1 constraint',
     script: 'src/prepare_annotations.py, src/join_annotations.py',
     input: 'Splits + AlphaMissense TSV + gnomAD v4.1 constraint TSV',
-    output: '187 feature vectors (+6 annotated columns)',
-    description: 'Integrates state-of-the-art biological priors while strictly preserving test isolation and recording coverage status flags.',
+    output: '187 feature vectors (+6 annotated biological columns)',
+    description: 'Integrates structural protein pathogenicity scores and gene-level selective constraint metrics while maintaining strict partition isolation.',
     details: [
-      'AlphaMissense: DeepMind structural pathogenicity scores (range 0.0–1.0) joined on chrom:pos:ref:alt',
+      'AlphaMissense: DeepMind structural pathogenicity scores (0.00–1.00) joined on chrom:pos:ref:alt',
       'Coverage indicator: has_am boolean flag explicitly tracks missense eligibility (15.4% of test set)',
-      'Missing values: median imputed with explicit missingness binary indicator to prevent signal loss',
+      'Missing values: median imputed with explicit missingness binary indicator to preserve unassisted signals',
       'gnomAD v4.1: Gene-level constraint metrics (LOEUF score, pLI loss-of-function intolerance, missense z-score)',
     ],
     metrics: [
@@ -109,12 +106,12 @@ const stages: PipelineStage[] = [
     subtitle: '5 diverse algorithms evaluated across 3 random seeds',
     script: 'src/train_models.py, src/train_annotated.py',
     input: 'Processed feature matrices (ClinVar vs +Annotated)',
-    output: 'Trained model artifacts & calibrated probabilities',
-    description: 'Trains tabular gradient boosting machines, linear regularized baselines, random forests, and deep MLPs with hyperparameter search.',
+    output: 'Trained model checkpoints & calibrated probabilities',
+    description: 'Trains tabular gradient boosting machines, regularized linear models, random forests, and deep neural nets with systematic hyperparameter validation.',
     details: [
       'LightGBM: GBDT with histogram binning, tuned learning rate (0.02) and max leaves (63)',
       'XGBoost: Exact greedy tree booster with L2 regularization',
-      'Logistic Regression: L2-penalized linear baseline with standardized scaling',
+      'Logistic Regression: L2-penalized linear baseline with standardized feature scaling',
       'Multi-Layer Perceptron: 3-layer dense neural network with ReLU activations and dropout',
       'Random Forest: 100-tree ensemble with balanced bootstrap subsampling',
     ],
@@ -131,7 +128,7 @@ const stages: PipelineStage[] = [
     script: 'src/temporal_eval.py, src/high_confidence.py, src/metrics.py',
     input: 'Test predictions across splits & releases',
     output: '7 scientific report artifacts & JSON results',
-    description: 'Subjecting models to rigorous stress tests to detect hidden failure modes, label-noise vulnerabilities, and generalization barriers.',
+    description: 'Subjecting models to rigorous stress tests to detect hidden failure modes, label-noise vulnerabilities, and prospective generalization boundaries.',
     details: [
       '95% Bootstrap Confidence Intervals: 1,000 resamples for ROC-AUC, PR-AUC, and F1 stability',
       'Temporal Hold-out: Model trained on 2025-10 ClinVar tested on 201,812 newly emerging 2026-10 variants',
@@ -171,7 +168,7 @@ export default function DatasetPipeline() {
   const activeStage = stages.find(s => s.id === selectedStage) ?? stages[0];
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="page-enter space-y-8 max-w-7xl">
       <PageHeader
         title="Dataset & ML Pipeline Architecture"
         description="End-to-end data provenance, chromosome-isolated partitioning, leak-free feature engineering, and external biological annotation integration."
@@ -180,23 +177,23 @@ export default function DatasetPipeline() {
 
       {/* Dataset Summary Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <MetricCard label="Total Variants" value="1,702,326" sub="ClinVar current release" badge="All" badgeVariant="teal" />
-        <MetricCard label="Training Set" value="1,415,482" sub="Chromosomes 1–18" badge="83.1%" badgeVariant="cyan" />
-        <MetricCard label="Validation Set" value="151,323" sub="Chromosomes 19–20" badge="8.9%" badgeVariant="slate" />
-        <MetricCard label="Hold-Out Test" value="135,521" sub="Chromosomes 21, 22, X" badge="8.0%" badgeVariant="slate" />
+        <MetricCard label="Total Variants" value="1,702,326" sub="ClinVar current release" badge="All" badgeVariant="forest" />
+        <MetricCard label="Training Partition" value="1,415,482" sub="Chromosomes 1–18" badge="83.1%" badgeVariant="sage" />
+        <MetricCard label="Validation Set" value="151,323" sub="Chromosomes 19–20" badge="8.9%" badgeVariant="neutral" />
+        <MetricCard label="Hold-Out Test" value="135,521" sub="Chromosomes 21, 22, X" badge="8.0%" badgeVariant="terracotta" featured={true} />
         <MetricCard label="AlphaMissense" value="15.4%" sub="Test coverage (missense)" badge="Annotation" badgeVariant="amber" />
-        <MetricCard label="Key Overlap" value="0.00%" sub="Leakage verification" badge="Zero Leaks" badgeVariant="teal" />
+        <MetricCard label="Key Overlap" value="0.00%" sub="Leakage verification" badge="Zero Leaks" badgeVariant="forest" />
       </div>
 
-      {/* Interactive Pipeline Stages */}
+      {/* Pipeline Stage Navigation */}
       <div className="space-y-4">
         <SectionHeader
-          title="Pipeline Execution Stages"
+          title="Pipeline Processing Stages"
           subtitle="Click on any stage to inspect the processing logic, input/output contracts, and validation checkpoints."
         />
 
         {/* Stage selection tabs */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-2.5">
           {stages.map((st) => {
             const isSelected = st.id === selectedStage;
             return (
@@ -204,22 +201,22 @@ export default function DatasetPipeline() {
                 key={st.id}
                 onClick={() => setSelectedStage(st.id)}
                 className={clsx(
-                  'text-left p-3.5 rounded-xl border transition-all duration-200 flex flex-col justify-between',
+                  'text-left p-3.5 rounded-xl border transition-all duration-150 flex flex-col justify-between',
                   isSelected
-                    ? 'bg-teal-500/10 border-teal-500/50 shadow-lg shadow-teal-500/5'
-                    : 'bg-navy-900/60 border-navy-700/60 hover:bg-navy-800/60 hover:border-navy-600'
+                    ? 'bg-[#243D32] dark:bg-[#2E4D40] text-[#FFFEFA] border-[#1C3228] shadow-sm'
+                    : 'bg-[#FFFEFA] dark:bg-[#1D2A23] border-[#DED9CC] dark:border-[#2E3E34] text-[#292D29] dark:text-[#EAE7DD] hover:border-[#84977A]'
                 )}
               >
                 <div>
-                  <div className={clsx('text-xs font-semibold mb-1', isSelected ? 'text-teal-400' : 'text-slate-400')}>
+                  <div className={clsx('text-[11px] font-heading font-bold uppercase tracking-wider mb-1', isSelected ? 'text-[#D08264]' : 'text-[#72776E] dark:text-[#9FA59A]')}>
                     {st.name.split('.')[0]}. Stage
                   </div>
-                  <div className={clsx('text-xs font-medium leading-snug', isSelected ? 'text-slate-100' : 'text-slate-300')}>
+                  <div className="text-xs font-heading font-semibold leading-snug">
                     {st.name.split('. ')[1]}
                   </div>
                 </div>
-                <div className="mt-3 flex items-center gap-1.5 text-[11px] text-slate-500 font-mono">
-                  <FileCode2 size={12} className="text-teal-400/70" />
+                <div className={clsx('mt-3 flex items-center gap-1.5 text-[10px] font-mono', isSelected ? 'text-[#EDEAE0]' : 'text-[#72776E] dark:text-[#9FA59A]')}>
+                  <FileCode2 size={12} className={isSelected ? 'text-[#D08264]' : 'text-[#84977A]'} />
                   <span className="truncate">{st.script.split(',')[0]}</span>
                 </div>
               </button>
@@ -228,45 +225,43 @@ export default function DatasetPipeline() {
         </div>
 
         {/* Selected Stage Detail Panel */}
-        <div className="card border border-navy-700/80 bg-navy-900/80 p-6 rounded-2xl relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-6 border-b border-navy-700/60">
+        <div className="card !p-6 space-y-6">
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 pb-6 border-b border-[#DED9CC] dark:border-[#2E3E34]">
             <div>
               <div className="flex items-center gap-2 mb-1.5">
-                <span className="badge badge-teal font-mono text-[11px]">ACTIVE STAGE</span>
-                <span className="text-xs text-slate-400 font-mono flex items-center gap-1">
-                  <FileCode2 size={13} className="text-teal-400" />
+                <span className="badge badge-terracotta font-mono text-[10px]">ACTIVE STAGE</span>
+                <span className="text-xs text-[#72776E] dark:text-[#9FA59A] font-mono flex items-center gap-1">
+                  <FileCode2 size={13} className="text-[#84977A]" />
                   {activeStage.script}
                 </span>
               </div>
-              <h3 className="text-xl font-bold text-slate-100">{activeStage.name}</h3>
-              <p className="text-slate-400 text-sm mt-1">{activeStage.subtitle}</p>
+              <h3 className="text-xl font-heading font-bold text-[#292D29] dark:text-[#EAE7DD]">{activeStage.name}</h3>
+              <p className="text-[#72776E] dark:text-[#9FA59A] text-xs md:text-sm mt-1">{activeStage.subtitle}</p>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {activeStage.metrics.map((m, idx) => (
-                <div key={idx} className="bg-navy-950/70 border border-navy-700/60 px-3.5 py-2 rounded-lg">
-                  <div className="text-[10px] uppercase tracking-wider text-slate-400 font-medium">{m.label}</div>
-                  <div className="text-sm font-semibold text-slate-200 mt-0.5 font-mono">{m.val}</div>
+                <div key={idx} className="bg-[#F5F2EA] dark:bg-[#141C17] border border-[#DED9CC] dark:border-[#2E3E34] px-3.5 py-2 rounded-lg">
+                  <div className="text-[10px] uppercase tracking-wider text-[#72776E] dark:text-[#9FA59A] font-medium">{m.label}</div>
+                  <div className="text-sm font-semibold text-[#292D29] dark:text-[#EAE7DD] mt-0.5 font-mono">{m.val}</div>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 pt-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-4">
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-teal-400 mb-2">Stage Description</h4>
-                <p className="text-sm text-slate-300 leading-relaxed">{activeStage.description}</p>
+                <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-[#B96F52] dark:text-[#D08264] mb-2">Stage Description</h4>
+                <p className="text-xs text-[#292D29] dark:text-[#EAE7DD] leading-relaxed">{activeStage.description}</p>
               </div>
 
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-teal-400 mb-2">Technical Implementation</h4>
+                <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-[#B96F52] dark:text-[#D08264] mb-2">Technical Implementation</h4>
                 <div className="space-y-2">
                   {activeStage.details.map((dt, i) => (
-                    <div key={i} className="flex items-start gap-2.5 text-xs text-slate-300">
-                      <CheckCircle2 size={15} className="text-teal-400 flex-shrink-0 mt-0.5" />
+                    <div key={i} className="flex items-start gap-2.5 text-xs text-[#383D38] dark:text-[#D5D2C8]">
+                      <CheckCircle2 size={15} className="text-[#84977A] flex-shrink-0 mt-0.5" />
                       <span className="leading-relaxed">{dt}</span>
                     </div>
                   ))}
@@ -274,30 +269,30 @@ export default function DatasetPipeline() {
               </div>
             </div>
 
-            <div className="bg-navy-950/60 border border-navy-700/70 rounded-xl p-4 space-y-4">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-300 flex items-center gap-1.5">
-                <Layers size={13} className="text-teal-400" />
+            <div className="bg-[#F5F2EA] dark:bg-[#141C17] border border-[#DED9CC] dark:border-[#2E3E34] rounded-xl p-4 space-y-4">
+              <h4 className="text-xs font-heading font-bold uppercase tracking-wider text-[#292D29] dark:text-[#EAE7DD] flex items-center gap-1.5">
+                <Layers size={13} className="text-[#84977A]" />
                 Data I/O Contracts
               </h4>
 
               <div>
-                <div className="text-[11px] text-slate-400 uppercase font-mono">Input Source</div>
-                <div className="text-xs text-slate-200 mt-1 font-mono bg-navy-900/90 p-2 rounded border border-navy-800 break-all">
+                <div className="text-[11px] text-[#72776E] dark:text-[#9FA59A] uppercase font-mono">Input Source</div>
+                <div className="text-xs text-[#292D29] dark:text-[#EAE7DD] mt-1 font-mono bg-[#FFFEFA] dark:bg-[#1D2A23] p-2.5 rounded border border-[#DED9CC] dark:border-[#2E3E34] break-all">
                   {activeStage.input}
                 </div>
               </div>
 
               <div>
-                <div className="text-[11px] text-slate-400 uppercase font-mono">Output Artifact</div>
-                <div className="text-xs text-teal-300 mt-1 font-mono bg-navy-900/90 p-2 rounded border border-navy-800 break-all">
+                <div className="text-[11px] text-[#72776E] dark:text-[#9FA59A] uppercase font-mono">Output Artifact</div>
+                <div className="text-xs text-[#243D32] dark:text-[#8FA385] font-bold mt-1 font-mono bg-[#FFFEFA] dark:bg-[#1D2A23] p-2.5 rounded border border-[#DED9CC] dark:border-[#2E3E34] break-all">
                   {activeStage.output}
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-navy-800">
-                <div className="text-[11px] text-slate-400 flex items-center gap-1">
-                  <ShieldCheck size={13} className="text-teal-400" />
-                  <span>Audited for leakage in CI</span>
+              <div className="pt-2 border-t border-[#DED9CC] dark:border-[#2E3E34]">
+                <div className="text-[11px] text-[#72776E] dark:text-[#9FA59A] flex items-center gap-1.5">
+                  <ShieldCheck size={14} className="text-[#84977A]" />
+                  <span>Audited for leakage in CI pipeline</span>
                 </div>
               </div>
             </div>
@@ -317,13 +312,13 @@ export default function DatasetPipeline() {
             {splitAuditChecks.map((chk, i) => (
               <div
                 key={i}
-                className="flex items-center justify-between p-3 rounded-lg bg-navy-950/50 border border-navy-700/50 text-xs"
+                className="flex items-center justify-between p-3 rounded-lg bg-[#F5F2EA]/60 dark:bg-[#141C17]/60 border border-[#DED9CC] dark:border-[#2E3E34] text-xs"
               >
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 size={15} className="text-teal-400 flex-shrink-0" />
-                  <span className="text-slate-300">{chk.check}</span>
+                  <CheckCircle2 size={15} className="text-[#84977A] flex-shrink-0" />
+                  <span className="text-[#292D29] dark:text-[#EAE7DD]">{chk.check}</span>
                 </div>
-                <span className="font-mono text-teal-300 font-medium px-2 py-0.5 rounded bg-teal-500/10 border border-teal-500/20">
+                <span className="font-mono text-[#243D32] dark:text-[#8FA385] font-bold px-2 py-0.5 rounded bg-[#FFFEFA] dark:bg-[#1D2A23] border border-[#DED9CC] dark:border-[#2E3E34]">
                   {chk.result}
                 </span>
               </div>
@@ -331,7 +326,7 @@ export default function DatasetPipeline() {
           </div>
 
           <InfoBox title="Why Chromosome Separation Matters">
-            Standard random K-fold CV suffers severe optimistic leakage in genomics because variants located in the same gene
+            Random K-fold CV suffers severe optimistic leakage in genomics because variants located in the same gene
             or linkage disequilibrium blocks share correlated attributes. Grouping by chromosome forces the model to evaluate on
             completely unseen genetic regions.
           </InfoBox>
@@ -345,15 +340,15 @@ export default function DatasetPipeline() {
 
           <div className="space-y-2.5">
             {featureAllowlist.map((f, i) => (
-              <div key={i} className="p-3 rounded-lg bg-navy-950/50 border border-navy-700/50 space-y-1">
+              <div key={i} className="p-3 rounded-lg bg-[#F5F2EA]/60 dark:bg-[#141C17]/60 border border-[#DED9CC] dark:border-[#2E3E34] space-y-1">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-slate-200">{f.category}</span>
-                  <span className="text-[11px] font-mono text-cyan-400 bg-cyan-950/50 px-2 py-0.5 rounded border border-cyan-800/40">
+                  <span className="text-xs font-heading font-semibold text-[#292D29] dark:text-[#EAE7DD]">{f.category}</span>
+                  <span className="text-[11px] font-mono text-[#B96F52] dark:text-[#D08264] bg-[#FFFEFA] dark:bg-[#1D2A23] px-2 py-0.5 rounded border border-[#DED9CC] dark:border-[#2E3E34]">
                     {f.count}
                   </span>
                 </div>
-                <div className="text-[11px] font-mono text-slate-400 truncate">{f.example}</div>
-                <div className="text-[11px] text-slate-400 pt-0.5">{f.notes}</div>
+                <div className="text-[11px] font-mono text-[#72776E] dark:text-[#9FA59A] truncate">{f.example}</div>
+                <div className="text-[11px] text-[#72776E] dark:text-[#9FA59A] pt-0.5">{f.notes}</div>
               </div>
             ))}
           </div>

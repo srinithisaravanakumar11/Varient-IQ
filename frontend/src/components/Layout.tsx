@@ -25,7 +25,7 @@ export default function Layout() {
   const { title, breadcrumbs } = pageTitles[pageKey] ?? pageTitles['/'];
 
   return (
-    <div className="min-h-screen bg-navy-950">
+    <div className="min-h-screen bg-[#F5F2EA] dark:bg-[#141C17] text-[#292D29] dark:text-[#EAE7DD] transition-colors duration-200">
       {/* Desktop sidebar */}
       <div className="hidden md:block">
         <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(c => !c)} />
